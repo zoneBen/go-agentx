@@ -5,7 +5,7 @@
 package pdu
 
 import (
-	"github.com/posteo/go-agentx/marshaler"
+	"github.com/zoneBen/go-agentx/marshaler"
 )
 
 // Unregister defines the pdu unregister packet.

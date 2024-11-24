@@ -135,12 +135,18 @@ func (c *Client) runReceiver() chan *pdu.HeaderPacket {
 						continue mainLoop
 					}
 				}
-				panic(err)
+				//panic(err)
+				if err != nil {
+					log.Printf("panic err %v\n", err.Error())
+				}
+				continue mainLoop
 			}
 
 			header := &pdu.Header{}
 			if err := header.UnmarshalBinary(headerBytes); err != nil {
-				panic(err)
+				//panic(err)
+				log.Printf("header packet.UnmarshalBinary err %v\n", err)
+				continue mainLoop
 			}
 
 			var packet pdu.Packet
@@ -153,15 +159,22 @@ func (c *Client) runReceiver() chan *pdu.HeaderPacket {
 				packet = &pdu.GetNext{}
 			default:
 				log.Printf("unhandled packet of type %s", header.Type)
+				continue mainLoop
 			}
 
 			packetBytes := make([]byte, header.PayloadLength)
 			if _, err := reader.Read(packetBytes); err != nil {
-				panic(err)
+				//panic(err)
+				log.Printf("reader.Read err %v\n", err)
+				continue mainLoop
 			}
-
+			if packet == nil {
+				continue mainLoop
+			}
 			if err := packet.UnmarshalBinary(packetBytes); err != nil {
-				panic(err)
+				//panic(err)
+				log.Printf("packet.UnmarshalBinary err %v\n", err)
+				continue mainLoop
 			}
 
 			rx <- &pdu.HeaderPacket{Header: header, Packet: packet}

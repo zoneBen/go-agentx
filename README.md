@@ -1,3 +1,5 @@
+fork from https://github.com/posteo/go-agentx
+
 # AgentX
 
 [![Documentation](https://godoc.org/github.com/posteo/go-agentx?status.svg)](http://godoc.org/github.com/posteo/go-agentx)

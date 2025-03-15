@@ -7,6 +7,7 @@ package pdu
 import (
 	"bytes"
 	"encoding/binary"
+	"errors"
 
 	"github.com/zoneBen/go-agentx/value"
 )
@@ -74,6 +75,9 @@ func (o *ObjectIdentifier) MarshalBinary() ([]byte, error) {
 
 // UnmarshalBinary sets the packet structure from the provided slice of bytes.
 func (o *ObjectIdentifier) UnmarshalBinary(data []byte) error {
+	if len(data) < 3 {
+		return errors.New("Go-agentx PDU UnmarshalBinary error")
+	}
 	count := data[0]
 	o.Prefix = data[1]
 	o.Include = data[2]

@@ -2,3 +2,4 @@ agentx
 Makefile
 *.txt
 vendor
+.idea/
